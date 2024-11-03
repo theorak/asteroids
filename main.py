@@ -2,11 +2,13 @@
 # the open-source pygame library
 # throughout this file
 import pygame
-import player
 
 # get our constants
 # module import could be listing or wildcard
 from constants import *
+from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main():
     print("Starting asteroids!")
@@ -14,12 +16,21 @@ def main():
     print(f"Screen height: {SCREEN_HEIGHT}")
     pygame.init()
     clock = pygame.time.Clock()
-    dt = 0 # delta time
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    player_char = player.Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    # groups to hold game entities in
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
 
-    updateable = pygame.sprite.Group(player_char)
-    drawable = pygame.sprite.Group(player_char)
+    # define groups for game entitites
+    Player.containers = (updateable, drawable)
+    Asteroid.containers = (asteroids, updateable, drawable)
+    AsteroidField.containers = (updateable)
+
+    # used variables and game entities
+    dt = 0.0 # delta time
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    asteroid_field = AsteroidField()
 
     while True:
         # input updates
