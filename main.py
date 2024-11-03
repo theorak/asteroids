@@ -27,7 +27,7 @@ def main():
     Player.containers = (updateable, drawable)
     Asteroid.containers = (asteroids, updateable, drawable)
     AsteroidField.containers = (updateable)
-    Shot.containers = (updateable, drawable)
+    Shot.containers = (shots, updateable, drawable)
 
     # used variables and game entities
     dt = 0.0 # delta time
@@ -41,10 +41,15 @@ def main():
             entity.update(dt)
 
         for asteroid in asteroids:
-            if player.is_colliding(asteroid):
+            if player.is_colliding(asteroid): # ship hitting asteroid
                 print("Game Over!")
                 exit()
-
+                
+            for shot in shots:
+                if shot.is_colliding(asteroid): # bullet hitting asteroid
+                    shot.kill()
+                    asteroid.split()
+                
         # additional events
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # on quit event
