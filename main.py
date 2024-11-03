@@ -18,16 +18,27 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     player_char = player.Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
-    while True:
-        screen.fill("black")
-        player_char.draw(screen)
+    updateable = pygame.sprite.Group(player_char)
+    drawable = pygame.sprite.Group(player_char)
 
+    while True:
+        # input updates
+        for entity in updateable:
+            entity.update(dt)
+
+        # additional events
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT: # on quit event
                 return
+
+        # draw frame
+        screen.fill("black")
+        for entity in drawable:
+            entity.draw(screen)
         
+         # expose frame, then pause to update at 60 FPS
         pygame.display.flip()
-        dt = clock.tick(60) / 1000 # pause to update at 60 FPS
+        dt = clock.tick(60) / 1000
 
 if __name__ == "__main__":
     main()
