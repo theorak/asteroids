@@ -37,6 +37,11 @@ def main():
         for entity in updateable:
             entity.update(dt)
 
+        for asteroid in asteroids:
+            if player.is_colliding(asteroid):
+                print("Game Over!")
+                exit()
+
         # additional events
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # on quit event
