@@ -2,6 +2,7 @@
 # the open-source pygame library
 # throughout this file
 import pygame
+import player
 
 # get our constants
 # module import could be listing or wildcard
@@ -15,16 +16,18 @@ def main():
     clock = pygame.time.Clock()
     dt = 0 # delta time
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    player_char = player.Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     while True:
-        screen.fill(000000)
-        pygame.display.flip()
+        screen.fill("black")
+        player_char.draw(screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         
-        dt = clock.tick(60) / 1000 # pauso to update at 60 FPS
+        pygame.display.flip()
+        dt = clock.tick(60) / 1000 # pause to update at 60 FPS
 
 if __name__ == "__main__":
     main()
